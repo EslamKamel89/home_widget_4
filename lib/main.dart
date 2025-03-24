@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,11 +32,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  final String appGroupId = 'group.gaztec4widget';
+  final String androidWidgetName = 'HomeWidget';
+  final String iosWidgetName = 'HomeWidget';
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+    String title = "The counter value is $_counter";
+    HomeWidget.saveWidgetData('headline_title', title);
+    HomeWidget.updateWidget(iOSName: iosWidgetName, androidName: androidWidgetName);
+  }
+
+  @override
+  void initState() {
+    HomeWidget.setAppGroupId(appGroupId);
+    super.initState();
   }
 
   @override
