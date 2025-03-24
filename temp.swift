@@ -21,23 +21,18 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-//        var entries: [SimpleEntry] = []
+        var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-//        let currentDate = Date()
-//        for hourOffset in 0 ..< 5 {
-//            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-//            let entry = SimpleEntry(date: entryDate, title: "Placeholder Title")
-//            entries.append(entry)
-//        }
-
-//        let timeline = Timeline(entries: entries, policy: .atEnd)
-        getSnapshot(in: context){
-            (entry) in
-            let timeline = Timeline(entries:[entry] , policy: .atEnd)
-            completion(timeline)
+        let currentDate = Date()
+        for hourOffset in 0 ..< 5 {
+            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+            let entry = SimpleEntry(date: entryDate, title: "Placeholder Title")
+            entries.append(entry)
         }
-        
+
+        let timeline = Timeline(entries: entries, policy: .atEnd)
+        completion(timeline)
     }
 
 //    func relevances() async -> WidgetRelevances<Void> {
@@ -83,9 +78,26 @@ struct HomeWidget: Widget {
     }
 }
 
-//#Preview(as: .systemSmall) {
-//    HomeWidget()
-//} timeline: {
-//    SimpleEntry(date: .now, emoji: "😀")
-//    SimpleEntry(date: .now, emoji: "🤩")
-//}
+#Preview(as: .systemSmall) {
+   HomeWidget()
+} timeline: {
+   SimpleEntry(date: .now, emoji: "😀")
+   SimpleEntry(date: .now, emoji: "🤩")
+}
+
+
+///////////////////////
+func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+
+        getSnapshot(in: context){
+            (entry) in
+            let timeline = Timeline(entries:[entry] , policy: .atEnd)
+            completion(timeline)
+        }
+        
+    }
+
+//    func relevances() async -> WidgetRelevances<Void> {
+//        // Generate a list containing the contexts this widget is relevant in.
+//    }
+
