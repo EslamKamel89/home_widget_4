@@ -5,6 +5,7 @@ import 'package:home_widget_4/core/globals/calc_method_settings.dart';
 import 'package:home_widget_4/core/globals/globals_var.dart';
 import 'package:home_widget_4/core/router/app_routes_names.dart';
 import 'package:home_widget_4/core/themes/themedata.dart';
+import 'package:home_widget_4/features/home_widget/controller/home_widget_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,6 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     cachePrayerMehtod();
+    HomeWidgetController.sendDataToHomeWidget('this is a message from flutter app');
+
     Future.delayed(const Duration(milliseconds: 3900), () {
       Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.mainHomepage, (_) => false);
     });
@@ -45,11 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 text: 'New Islamic Calendar',
                 letterAnimationDuration: Duration(milliseconds: 150),
                 recombineDuration: Duration(milliseconds: 150),
-                textStyle: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                textStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
               ),
 
               const SizedBox(height: 10),
@@ -104,9 +103,7 @@ class AnimatedTextWidget extends StatelessWidget {
               return Text(
                     text[index],
                     style:
-                        textStyle?.copyWith(
-                          color: textStyle?.color?.withOpacity(animationProgress),
-                        ) ??
+                        textStyle?.copyWith(color: textStyle?.color?.withOpacity(animationProgress)) ??
                         TextStyle(color: Colors.black.withOpacity(animationProgress)),
                   )
                   .animate()

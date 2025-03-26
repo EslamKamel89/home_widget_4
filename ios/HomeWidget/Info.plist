@@ -6,6 +6,13 @@
 	<dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
+		 <key>NSExtensionAttributes</key>
+			<dict>
+				<key>UIWidgetSupportedFamilies</key>
+				<array>
+					<integer>3</integer>
+				</array>
+			</dict>
 	</dict>
 </dict>
 </plist>

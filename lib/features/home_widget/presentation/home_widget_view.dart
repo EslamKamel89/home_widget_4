@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_widget_4/features/home_widget/controller/home_widget_controller.dart';
 
 class HomeWidgetView extends StatefulWidget {
   const HomeWidgetView({super.key});
@@ -12,7 +11,6 @@ class HomeWidgetView extends StatefulWidget {
 class _HomeWidgetViewState extends State<HomeWidgetView> {
   @override
   void initState() {
-    HomeWidgetController.sendDataToHomeWidget('this is a message from flutter app');
     super.initState();
   }
 
@@ -127,3 +125,33 @@ class HomeWidgetPrayersTime extends StatelessWidget {
     );
   }
 }
+
+class SinglePrayer extends StatelessWidget {
+  const SinglePrayer({super.key, required this.prayerName, required this.prayerTime});
+  final String prayerName;
+  final String prayerTime;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Fajr'),
+        const SizedBox(height: 5),
+        Container(
+          width: 25.w,
+          height: 30.w,
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(),
+          child: Image.asset('assets/images/one.png', fit: BoxFit.fill),
+        ),
+        const SizedBox(height: 5),
+        Text("3:00\nPM"),
+      ],
+    );
+  }
+}
+
+/*
+flutter clean && rm -rf ios/Pods ios/Podfile.lock && flutter pub get && cd ios && pod install && cd .. && flutter build ios --config-only
+ */

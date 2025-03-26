@@ -39,11 +39,12 @@ struct SimpleEntry: TimelineEntry {
 
 struct HomeWidgetEntryView : View {
     private let prayers: [(name: String, time: String , image:String)] = [
-          ("Fajr", "3:00\nPM" , "two"),
-          ("Sunrise", "3:00\nPM" , "two"),
-          ("Asr", "3:00\nPM" , "two"),
-          ("Maghrib", "3:00\nPM" , "two"),
-          ("Isha", "3:00\nPM" , "two")
+          ("Fajr", "3:00\nPM" , "fajr"),
+          ("Sunrise", "3:00\nPM" , "three"),
+          ("Duhr", "3:00\nPM" , "two"),
+          ("Asr", "3:00\nPM" , "one"),
+          ("Maghrib", "3:00\nPM" , "four"),
+          ("Isha", "3:00\nPM" , "five")
       ]
     
     var entry: Provider.Entry
@@ -59,14 +60,12 @@ struct HomeWidgetEntryView : View {
 //            Text("Calender2:")
 //            Text(entry.data)
 //        }
-        ScrollView(.horizontal , showsIndicators: false){
-            HStack(spacing: 16) {  // Adjust spacing as needed
-                     ForEach(prayers, id: \.name) { prayer in
-                         PrayerView(name: prayer.name, time: prayer.time, imageName: prayer.image)
-                     }
+        HStack(spacing: 16) {  // Adjust spacing as needed
+                 ForEach(prayers, id: \.name) { prayer in
+                     PrayerView(name: prayer.name, time: prayer.time, imageName: prayer.image)
                  }
-                 .padding()
-        }
+             }
+             .padding()
     }
 }
 
@@ -98,7 +97,7 @@ struct PrayerView: View {
         VStack(spacing: 5) {
             // Prayer name
             Text(name)
-                .font(.headline)
+                .font(.body)
             
             // Image container:
             // Use a fixed frame that approximates your Flutter dimensions.
@@ -111,8 +110,8 @@ struct PrayerView: View {
             // Prayer time (allowing multi-line text)
             Text(time)
                 .multilineTextAlignment(.center)
-                .font(.subheadline)
+                .font(.body)
         }
-        .frame(minWidth: 0, maxWidth: .infinity).frame(minWidth: 80)  // This helps to evenly distribute each column
+        .frame(minWidth: 0, maxWidth: .infinity) // This helps to evenly distribute each column
     }
 }
