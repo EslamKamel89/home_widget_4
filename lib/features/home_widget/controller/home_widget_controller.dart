@@ -5,6 +5,7 @@ class HomeWidgetController {
   static const String androidWidgetName = 'HomeWidget';
   static const String iosWidgetName = 'HomeWidget';
   static void sendDataToHomeWidget(String data) {
+    HomeWidget.setAppGroupId(appGroupId);
     HomeWidget.saveWidgetData('data', data);
     HomeWidget.updateWidget(iOSName: iosWidgetName, androidName: androidWidgetName);
   }

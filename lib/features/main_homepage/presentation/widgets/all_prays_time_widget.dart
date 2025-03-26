@@ -89,10 +89,7 @@ class _AppPrayersTimeBuilderState extends State<AppPrayersTimeBuilder> {
     response.fold(
       (_) {
         setState(() {
-          newHijriDate = newHijriDate.copyWith(
-            response: ResponseEnum.failure,
-            errorMessage: 'Error Occured',
-          );
+          newHijriDate = newHijriDate.copyWith(response: ResponseEnum.failure, errorMessage: 'Error Occured');
         });
       },
       (model) {
@@ -125,9 +122,7 @@ class _AppPrayersTimeBuilderState extends State<AppPrayersTimeBuilder> {
       return;
     }
     positionNotifier.addListener(() async {
-      pr(
-        'listener in AppPrayersTimeBuilder widget is called because position is changed: ${positionNotifier.value}',
-      );
+      pr('listener in AppPrayersTimeBuilder widget is called because position is changed: ${positionNotifier.value}');
       if (positionNotifier.value == null) return;
       cubit.params = cubit.params.copyWith(
         latitude: positionNotifier.value!.latitude,
@@ -219,13 +214,8 @@ class _AppPrayersTimeBuilderState extends State<AppPrayersTimeBuilder> {
                 elevation: 2,
                 shadowColor: Colors.grey.withOpacity(0.3),
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.w),
-                    color: Colors.white,
-                  ),
-                  child: PrayersWidget(
-                    state.data,
-                  ).animate().fade(duration: 1000.ms, begin: 0, end: 1),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.w), color: Colors.white),
+                  child: PrayersWidget(state.data).animate().fade(duration: 1000.ms, begin: 0, end: 1),
                 ),
               ),
             ],
@@ -298,12 +288,7 @@ class PrayersWidget extends StatelessWidget {
 }
 
 class PrayTimeWidget extends StatelessWidget {
-  const PrayTimeWidget({
-    super.key,
-    required this.pray,
-    required this.imagePath,
-    required this.time,
-  });
+  const PrayTimeWidget({super.key, required this.pray, required this.imagePath, required this.time});
   final String pray;
   final String? time;
   final String imagePath;

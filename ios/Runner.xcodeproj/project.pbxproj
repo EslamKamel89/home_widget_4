@@ -94,7 +94,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BB4A79392D914DE200F924AD /* Exceptions for "HomeWidget" folder in "HomeWidgetExtension" target */ = {
+		BB4A79392D914DE200F924AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -104,18 +104,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		BB4A792A2D914DE100F924AD /* HomeWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BB4A79392D914DE200F924AD /* Exceptions for "HomeWidget" folder in "HomeWidgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = HomeWidget;
-			sourceTree = "<group>";
-		};
+		BB4A792A2D914DE100F924AD /* HomeWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BB4A79392D914DE200F924AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HomeWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
