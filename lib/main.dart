@@ -1,79 +1,82 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:home_widget/home_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:home_widget_4/core/globals/globals_var.dart';
+import 'package:home_widget_4/core/router/app_router.dart';
+import 'package:home_widget_4/core/router/app_routes_names.dart';
+import 'package:home_widget_4/core/service_locator/service_locator.dart';
+import 'package:home_widget_4/core/themes/theme_cubit.dart';
+import 'package:home_widget_4/features/date_conversion/presentation/cubits/date_conversion/date_conversion_cubit.dart';
+import 'package:home_widget_4/features/date_info/presentation/cubits/date_month/date_month_cubit.dart';
+import 'package:home_widget_4/features/date_info/presentation/cubits/date_year/date_year_cubit.dart';
+import 'package:home_widget_4/features/date_info/presentation/cubits/eclipse/eclipse_cubit.dart';
+import 'package:home_widget_4/features/date_info/presentation/cubits/moon_phase/moon_phase_cubit.dart';
+import 'package:home_widget_4/features/main_homepage/cubits/moon_image/moon_image_cubit.dart';
+import 'package:home_widget_4/features/main_homepage/cubits/update_next_prayer_api/update_next_prayer_api_cubit.dart';
+import 'package:intl/intl_standalone.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initServiceLocator();
+  await findSystemLocale();
+  await EasyLocalization.ensureInitialized();
+  tz.initializeTimeZones();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: 'assets/langs', // Path to translation files
+      fallbackLocale: const Locale('en'),
+      // child: DevicePreview(enabled: !kReleaseMode, builder: (context) => const MyApp()),
+      child: const MyApp(),
+    ),
+  );
 }
 
-/*
-flutter clean && rm -rf ios/Pods ios/Podfile.lock && flutter pub get && cd ios && pod install && cd .. && flutter build ios --config-only
- */
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => ThemeCubit()),
+          BlocProvider(
+            create: (context) => DateConversionCubit(dateConversionRepo: serviceLocator()),
+          ),
+          BlocProvider(create: (context) => DateYearCubit(dateInfoRepo: serviceLocator())),
+          BlocProvider(create: (context) => DateMonthCubit(dateInfoRepo: serviceLocator())),
+          BlocProvider(create: (context) => MoonPhaseCubit(dateInfoRepo: serviceLocator())),
+          BlocProvider(create: (context) => EclipseCubit(dateInfoRepo: serviceLocator())),
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  final String appGroupId = 'group.gaztec4widget';
-  final String androidWidgetName = 'HomeWidget';
-  final String iosWidgetName = 'HomeWidget';
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-    try {
-      String title = "The counter value is $_counter";
-      HomeWidget.saveWidgetData('headline_title', title);
-      HomeWidget.updateWidget(iOSName: iosWidgetName, androidName: androidWidgetName);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    HomeWidget.setAppGroupId(appGroupId);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
-          ],
+          // BlocProvider(create: (context) => UpdateNextPrayerInfoCubit()),
+          // BlocProvider(create: (context) => PrayersTimesTodayCubit()..getPrayersTimesToday()),
+          BlocProvider(create: (context) => UpdateNextPrayerApiCubit()..init()),
+          // BlocProvider(create: (context) => PrayersTimesByDateCubit()..getPrayersTimesByDate(DateTime.now())),
+          BlocProvider(create: (context) => MoonImageCubit()),
+        ],
+        child: Builder(
+          builder: (context) {
+            final themeCubit = context.watch<ThemeCubit>();
+            return MaterialApp(
+              // builder: DevicePreview.appBuilder,
+              navigatorKey: navigatorKey,
+              theme: themeCubit.state,
+              debugShowCheckedModeBanner: false,
+              initialRoute: AppRoutesNames.splashScreen,
+              locale: context.locale,
+              supportedLocales: context.supportedLocales,
+              localizationsDelegates: context.localizationDelegates,
+              onGenerateRoute: serviceLocator<AppRouter>().onGenerateRoute,
+            );
+          },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
