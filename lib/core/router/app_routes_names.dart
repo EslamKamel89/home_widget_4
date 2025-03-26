@@ -8,4 +8,5 @@ class AppRoutesNames {
   static const String mainHomepage = 'mainHomepage';
   static const String qiblaFinderView = 'qiblaFinderView';
   static const String worldPrayersView = 'worldPrayersView';
+  static const String homeWidgetView = 'homeWidgetView';
 }
