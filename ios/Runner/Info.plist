@@ -45,5 +45,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need location to determine Qibla direction</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Need compass access</string>
 </dict>
 </plist>
