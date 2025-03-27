@@ -20,8 +20,7 @@ class PrayersController {
   Future<ApiResponseModel<PrayersTimeModel>> prayerTime(PrayerTimeParams params) async {
     final t = prt('prayerTime - PrayersControllers');
     if (params.method == IslamicOrganization.auto) {
-      params.method =
-          (await getPrayerCalcMethodByPosition()) ?? IslamicOrganization.muslimWorldLeague;
+      params.method = (await getPrayerCalcMethodByPosition()) ?? IslamicOrganization.muslimWorldLeague;
     }
     try {
       final response = await api.get(
@@ -29,10 +28,7 @@ class PrayersController {
         queryParameter: params.toMap(),
       );
       return pr(
-        ApiResponseModel(
-          response: ResponseEnum.success,
-          data: PrayersTimeModel.fromJson(response['data']['timings']),
-        ),
+        ApiResponseModel(response: ResponseEnum.success, data: PrayersTimeModel.fromJson(response['data']['timings'])),
         t,
       );
     } catch (e) {

@@ -160,8 +160,3 @@ struct HomeWidget: Widget {
     }
 }
 
-struct Prayer: Decodable {
-    let prayerName: String
-    let prayerTime: String
-    let prayerImg: String
-}
