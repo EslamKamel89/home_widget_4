@@ -119,7 +119,7 @@ struct HomeWidgetEntryView: View {
                             name: prayer.name,
                             time: prayer.time,
                             imageName: prayer.image,
-                            imageSize: CGSize(width: 50, height: 50)
+                            imageSize: CGSize(width: 60, height: 70)
                         )
                     }
                 }
@@ -131,10 +131,11 @@ struct HomeWidgetEntryView: View {
                             name: prayer.name,
                             time: prayer.time,
                             imageName: prayer.image,
-                            imageSize: CGSize(width: 30, height: 30)
+                            imageSize: CGSize(width: 50, height: 60)
                         )
                     }
-                }            }
+                }.padding()
+            }
         }
     }
 }

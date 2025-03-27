@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     cachePrayerMehtod();
     HomeWidgetController.sendDataToHomeWidget('this is a message from flutter app');
+    HomeWidgetController.getPrayerTimes();
 
     Future.delayed(const Duration(milliseconds: 3900), () {
       Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.mainHomepage, (_) => false);
