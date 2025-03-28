@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     cachePrayerMehtod();
-    HomeWidgetController.sendDataToHomeWidget('this is a message from flutter app');
+    // HomeWidgetController.sendDataToHomeWidget('this is a message from flutter app');
     HomeWidgetController.getPrayerTimes();
 
     Future.delayed(const Duration(milliseconds: 3900), () {

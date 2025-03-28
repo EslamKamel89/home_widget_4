@@ -1,0 +1,62 @@
+[
+    {
+        "prayerName": "Fajr",
+        "prayerTime": "05:33\\nAM",
+        "prayerImg": "fajr"
+    },
+    {
+        "prayerName": "Sunrise",
+        "prayerTime": "07:02\\nAM",
+        "prayerImg": "three"
+    },
+    {
+        "prayerName": "Dhuhr",
+        "prayerTime": "01:15\\nPM",
+        "prayerImg": "two"
+    },
+    {
+        "prayerName": "Asr",
+        "prayerTime": "04:45\\nPM",
+        "prayerImg": "one"
+    },
+    {
+        "prayerName": "Maghrib",
+        "prayerTime": "07:28\\nPM",
+        "prayerImg": "four"
+    },
+    {
+        "prayerName": "Isha",
+        "prayerTime": "08:52\\nPM",
+        "prayerImg": "five"
+    },
+    {
+        "prayerName": "Fajr",
+        "prayerTime": "05:33\nAM",
+        "prayerImg": "fajr"
+    },
+    {
+        "prayerName": "Sunrise",
+        "prayerTime": "07:02\nAM",
+        "prayerImg": "three"
+    },
+    {
+        "prayerName": "Dhuhr",
+        "prayerTime": "01:15\nPM",
+        "prayerImg": "two"
+    },
+    {
+        "prayerName": "Asr",
+        "prayerTime": "04:46\nPM",
+        "prayerImg": "one"
+    },
+    {
+        "prayerName": "Maghrib",
+        "prayerTime": "07:28\nPM",
+        "prayerImg": "four"
+    },
+    {
+        "prayerName": "Isha",
+        "prayerTime": "08:52\nPM",
+        "prayerImg": "five"
+    }
+]

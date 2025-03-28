@@ -12,27 +12,30 @@ struct Prayer: Decodable, Identifiable {
 }
 
 func parsePrayers(from jsonString: String) -> [Prayer]? {
-    guard
-        let jsonData = jsonString.data(using: .utf8)
-    else {
-        print("Failed to convert string to Data")
-        return nil
-    }
+    guard let jsonData = jsonString.data(using: .utf8) else { return nil }
     do {
         let prayers = try JSONDecoder().decode([Prayer].self, from: jsonData)
         return prayers
     } catch {
-        print("Failed to decode JSON: \(error.localizedDescription)")
+        print("Failed to decode JSON: \(error)")
         return nil
     }
 }
+
 // MARK: - Data Provider
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         // Provide a simple placeholder JSON string
-        let placeholderJSON = "00:00,00:00,00:00,00:00,00:00,00:00"
-        return SimpleEntry(date: Date(), data: placeholderJSON  )
+        let placeholderJSON = """
+        [{"prayerName":"Fajr","prayerTime":"05:33\\nAM","prayerImg":"fajr"},
+         {"prayerName":"Sunrise","prayerTime":"07:02\\nAM","prayerImg":"three"},
+         {"prayerName":"Dhuhr","prayerTime":"01:15\\nPM","prayerImg":"two"},
+         {"prayerName":"Asr","prayerTime":"04:45\\nPM","prayerImg":"one"},
+         {"prayerName":"Maghrib","prayerTime":"07:28\\nPM","prayerImg":"four"},
+         {"prayerName":"Isha","prayerTime":"08:52\\nPM","prayerImg":"five"}]
+        """
+        return SimpleEntry(date: Date(), data: placeholderJSON)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -52,7 +55,7 @@ struct Provider: TimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let data: String
+    let data: String  // JSON encoded string holding prayer data
 }
 
 // MARK: - Reusable PrayerView
@@ -92,30 +95,20 @@ struct HomeWidgetEntryView: View {
     // Decode the JSON string from entry.data into an array of Prayer objects.
     // If decoding fails, use a fallback default array.
     var prayers: [Prayer] {
-//        parsePrayers(from: entry.data) ??
-        [
-            Prayer(
-                prayerName: "Fajr",
-                prayerTime: convertToTimeList(timeString: entry.data)[0],
-                prayerImg: "fajr"
-            ),
-            Prayer(prayerName: "Sunrise", prayerTime: convertToTimeList(timeString: entry.data)[1], prayerImg: "three"),
-            Prayer(
-                prayerName: "Dhuhr",
-                prayerTime: convertToTimeList(timeString: entry.data)[2],
-                prayerImg: "two"
-            ),
-            Prayer(prayerName: "Asr", prayerTime: convertToTimeList(timeString: entry.data)[3], prayerImg: "one"),
-            Prayer(prayerName: "Maghrib", prayerTime: convertToTimeList(timeString: entry.data)[4], prayerImg: "four"),
-            Prayer(prayerName: "Isha", prayerTime:convertToTimeList(timeString: entry.data)[5], prayerImg: "five")
+        parsePrayers(from: entry.data) ?? [
+            Prayer(prayerName: "Fajr", prayerTime: "00:00\nAM", prayerImg: "fajr"),
+            Prayer(prayerName: "Sunrise", prayerTime: "00:00\nAM", prayerImg: "three"),
+            Prayer(prayerName: "Dhuhr", prayerTime: "00:00\nPM", prayerImg: "two"),
+            Prayer(prayerName: "Asr", prayerTime: "00:00\nPM", prayerImg: "one"),
+            Prayer(prayerName: "Maghrib", prayerTime: "00:00\nPM", prayerImg: "four"),
+            Prayer(prayerName: "Isha", prayerTime: "00:00\nPM", prayerImg: "five")
         ]
     }
     
     var body: some View {
         ZStack {
             // Background with a generic subtle gradient
-//            Text(convertToTimeList(timeString:  entry.data)[0])
-//            Text(entry.dhuhr)
+//            Text(entry.data)
             LinearGradient(
                 gradient: Gradient(colors: [Color.blue.opacity(0.05), Color.green.opacity(0.05)]),
                 startPoint: .topLeading,
@@ -123,7 +116,7 @@ struct HomeWidgetEntryView: View {
             )
             .ignoresSafeArea()
             
-//             Layout based on widget family
+            // Layout based on widget family
             switch family {
             case .systemSmall, .systemMedium:
                 // For small and medium sizes, wrap the HStack in a ScrollView for pagination.
@@ -188,7 +181,4 @@ struct HomeWidget: Widget {
         .configurationDisplayName("Prayer Times")
         .description("Displays Islamic prayer times with a modern, responsive design.")
     }
-}
-func convertToTimeList(timeString: String) -> [String] {
-    return timeString.components(separatedBy: ",")
 }

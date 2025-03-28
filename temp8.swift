@@ -31,14 +31,21 @@ func parsePrayers(from jsonString: String) -> [Prayer]? {
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         // Provide a simple placeholder JSON string
-        let placeholderJSON = "00:00,00:00,00:00,00:00,00:00,00:00"
-        return SimpleEntry(date: Date(), data: placeholderJSON  )
+        let placeholderJSON = """
+        [{"prayerName":"Fajr","prayerTime":"05:33\\nAM","prayerImg":"fajr"},
+         {"prayerName":"Sunrise","prayerTime":"07:02\\nAM","prayerImg":"three"},
+         {"prayerName":"Dhuhr","prayerTime":"01:15\\nPM","prayerImg":"two"},
+         {"prayerName":"Asr","prayerTime":"04:45\\nPM","prayerImg":"one"},
+         {"prayerName":"Maghrib","prayerTime":"07:28\\nPM","prayerImg":"four"},
+         {"prayerName":"Isha","prayerTime":"08:52\\nPM","prayerImg":"five"}]
+        """
+        return SimpleEntry(date: Date(), data: placeholderJSON , fajr: "00:00", sunrise: "00:00" , dhuhr: "00:00" , asr: "00:00" , maghrib: "00:00" , isha: "00:00")
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let userDefaults = UserDefaults(suiteName: "group.gaztec4widget")
         let data = userDefaults?.string(forKey: "data") ?? ""
-        let entry = SimpleEntry(date: Date(), data: data)
+        let entry = SimpleEntry(date: Date(), data: data, fajr: "00:00", sunrise: "00:00" , dhuhr: "00:00" , asr: "00:00" , maghrib: "00:00" , isha: "00:00")
         completion(entry)
     }
     
@@ -52,7 +59,13 @@ struct Provider: TimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let data: String
+    let data: String  // JSON encoded string holding prayer data
+    let fajr:String
+    let sunrise:String
+    let dhuhr:String
+    let asr:String
+    let maghrib:String
+    let isha:String
 }
 
 // MARK: - Reusable PrayerView
